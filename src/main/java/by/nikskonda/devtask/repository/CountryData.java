@@ -6,8 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.ResourceUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +25,7 @@ public class CountryData {
         ObjectMapper mapper = new ObjectMapper();
         try {
             Map<String, Country> mapOfCountries = mapper.readValue(
-                            new File("src/main/resources/data.json"),
+                            ResourceUtils.getFile("classpath:data.json"),
                             new TypeReference<List<Country>>() {
                             })
                     .stream()

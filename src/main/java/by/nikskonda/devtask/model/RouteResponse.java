@@ -1,14 +1,17 @@
 package by.nikskonda.devtask.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RouteResponse {
 
-    private String[] route;
+    private List<String> route = new ArrayList<>();
 
-    public String[] getRoute() {
+    public List<String> getRoute() {
         return route;
     }
 
-    public void setRoute(String[] route) {
+    public void setRoute(List<String> route) {
         this.route = route;
     }
 }

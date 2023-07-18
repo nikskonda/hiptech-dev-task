@@ -6,9 +6,7 @@ import by.nikskonda.devtask.model.Country;
 import by.nikskonda.devtask.model.GraphNode;
 import by.nikskonda.devtask.model.RouteResponse;
 import by.nikskonda.devtask.repository.CountryData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -16,17 +14,18 @@ import java.util.Map;
 @Service
 public class RouteService {
 
-    @Autowired
-    private BreadthFirstSearch breadthFirstSearch;
+    private final BreadthFirstSearch breadthFirstSearch;
+    private final CountryData countryData;
 
-    @Autowired
-    private CountryData countryData;
+    public RouteService(BreadthFirstSearch breadthFirstSearch, CountryData countryData) {
+        this.breadthFirstSearch = breadthFirstSearch;
+        this.countryData = countryData;
+    }
 
     public RouteResponse findMinCountryRoute(String source, String destination) {
         Map<String, GraphNode<Country>> mapOfCountryGraph = countryData.getMapOfCountryGraph();
 
-        if (!StringUtils.hasLength(source) || !StringUtils.hasLength(destination)
-                || !mapOfCountryGraph.containsKey(source) || !mapOfCountryGraph.containsKey(destination)) {
+        if (!mapOfCountryGraph.containsKey(source) || !mapOfCountryGraph.containsKey(destination)) {
             throw new CountryNotFoundException("Please enter correct 'origin' or 'destination' country.");
         }
 
@@ -36,7 +35,7 @@ public class RouteService {
         }
 
         RouteResponse routeResponse = new RouteResponse();
-        routeResponse.setRoute(result.stream().map(Country::getName).toArray(String[]::new));
+        routeResponse.setRoute(result.stream().map(Country::getName).toList());
         return routeResponse;
     }
 }
