@@ -3,7 +3,7 @@ package by.nikskonda.devtask.service;
 import by.nikskonda.devtask.exception.CountryNotFoundException;
 import by.nikskonda.devtask.exception.NoLandCrossingException;
 import by.nikskonda.devtask.model.Country;
-import by.nikskonda.devtask.model.GraphNode;
+import by.nikskonda.devtask.model.CountryGraphNode;
 import by.nikskonda.devtask.model.RouteResponse;
 import by.nikskonda.devtask.repository.CountryData;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class RouteService {
     }
 
     public RouteResponse findMinCountryRoute(String source, String destination) {
-        Map<String, GraphNode<Country>> mapOfCountryGraph = countryData.getMapOfCountryGraph();
+        Map<String, CountryGraphNode> mapOfCountryGraph = countryData.getMapOfCountryGraph();
 
         if (!mapOfCountryGraph.containsKey(source) || !mapOfCountryGraph.containsKey(destination)) {
             throw new CountryNotFoundException("Please enter correct 'origin' or 'destination' country.");
